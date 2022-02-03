@@ -24,7 +24,7 @@ export default function App() {
       });
 
       await fetch(
-        `http://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`,
+        `https://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`,
         params
       )
         .then((res) => res.json())
