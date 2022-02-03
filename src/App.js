@@ -10,7 +10,12 @@ export default function App() {
   const [long, setLong] = useState([]);
   const [address, setAddress] = useState();
   const [data, setData] = useState([]);
-
+  const params = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
   useEffect(() => {
     async function fetchData() {
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -19,7 +24,8 @@ export default function App() {
       });
 
       await fetch(
-        `http://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`
+        `http://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`,
+        params
       )
         .then((res) => res.json())
         .then((result) => {
@@ -33,14 +39,15 @@ export default function App() {
         (item) => item.LangCultureName.indexOf(data.sys.country) >= 0
       );
       await fetch(
-        `https://${process.env.REACT_APP_MAP_API_URL}/geocode/json?latlng=${lat},${long}&key=${process.env.REACT_APP_MAP_API_KEY}&language=${lg}`
+        `https://${process.env.REACT_APP_MAP_API_URL}/geocode/json?latlng=${lat},${long}&key=${process.env.REACT_APP_MAP_API_KEY}&language=${lg}`,
+        params
       )
         .then((res) => res.json())
         .then((result) => {
           setAddress(result);
         });
     }
-    
+
     fetchData();
   }, [lat, long]);
 
