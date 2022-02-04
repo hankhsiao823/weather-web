@@ -1,6 +1,6 @@
 {
   "name": "weather-web",
-  "homepage": "https://hankhsiao823.github.io/weather-web",
+  "homepage": "http://hankhsiao823.github.io/weather-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
