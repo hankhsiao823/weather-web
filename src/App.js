@@ -71,7 +71,7 @@ export default function App() {
         {data.main !== undefined && address !== undefined ? (
           <WeatherComponent data={data} address={address} />
         ) : (
-          <CircularProgress />
+          <CircularProgress sx={{color:"lightblue"}} />
         )}
       </Container>
     </Box>

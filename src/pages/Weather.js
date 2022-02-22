@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 
 export default function Weather({ data, address }) {
   const [nowTime, setNowTime] = useState();
-  let icon = `http://openweathermap.org/img/wn/${data['weather'][0]['icon']}@2x.png`
+  let iconcode = data.weather[0].icon;
+  let icon = `http://openweathermap.org/img/wn/${iconcode}@2x.png`
 
   useEffect(() => {
     const time = new Date();
