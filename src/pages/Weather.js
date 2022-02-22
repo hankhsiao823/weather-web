@@ -79,7 +79,7 @@ export default function Weather({ data, address }) {
           </Box>
           <Box p={0}>
             <img
-              src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
+              src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
               alt="weather"
               style={{ width: 100, height: 100 }}
             />
