@@ -1,8 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import Weather from "./pages/Weather";
-import { CircularProgress, Container } from "@mui/material";
-import { Box } from "@mui/system";
+import { CircularProgress, Container,Box,useTheme } from "@mui/material";
 import language from "./language.json";
 
 export default function App() {
@@ -57,9 +56,10 @@ export default function App() {
   }, [lat, long]);
 
   const WeatherComponent = React.memo(Weather);
+  const theme = useTheme();
 
   return (
-    <Box>
+    <Box sx={{background:theme.palette.primary.main}}>
       <Container
         sx={{
           display: "flex",

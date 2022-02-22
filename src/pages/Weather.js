@@ -1,12 +1,12 @@
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 export default function Weather({ data, address }) {
-  const time = new Date();
   const [nowTime, setNowTime] = useState();
   let icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
 
   useEffect(() => {
+    const time = new Date();
     setNowTime(
       `${time.getFullYear()}年${
         time.getMonth() + 1
@@ -14,7 +14,7 @@ export default function Weather({ data, address }) {
     );
   }, [data]);
 
-  console.log(nowTime);
+  console.log(data);
   return (
     <Card sx={{ width: 400 }} p={4}>
       <Grid container>
@@ -78,11 +78,11 @@ export default function Weather({ data, address }) {
               </Typography>
             </Box>
           </Box>
-          <Box p={0}>
+          <Box p={0} sx={{width: 100, height: 100}}>
             <img
               src={icon}
-              alt="weather"
-              style={{ width: 100, height: 100 }}
+              // alt="weather"
+              // style={{ width: 100, height: 100 }}
             />
           </Box>
         </Grid>
