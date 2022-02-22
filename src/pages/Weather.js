@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 export default function Weather({ data, address }) {
   const [nowTime, setNowTime] = useState();
-  let icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+  let icon = `http://openweathermap.org/img/wn/${data['weather'][0]['icon']}@2x.png`
 
   useEffect(() => {
     const time = new Date();
@@ -81,7 +81,7 @@ export default function Weather({ data, address }) {
           <Box p={0} sx={{width: 100, height: 100}}>
             <img
               src={icon}
-              // alt="weather"
+              alt="weather"
               // style={{ width: 100, height: 100 }}
             />
           </Box>
