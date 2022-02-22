@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 export default function Weather({ data, address }) {
   const [nowTime, setNowTime] = useState();
   let iconcode = data.weather[0].icon;
-  let icon = `http://openweathermap.org/img/wn/${iconcode}@2x.png`
+  // let icon = "http://openweathermap.org/img/wn/"+iconcode+"@2x.png"
+  let icon = 'assets/images/'+iconcode+'.png'
 
   useEffect(() => {
     const time = new Date();
@@ -15,7 +16,6 @@ export default function Weather({ data, address }) {
     );
   }, [data]);
 
-  console.log(data);
   return (
     <Card sx={{ width: 400 }} p={4}>
       <Grid container>
@@ -83,7 +83,7 @@ export default function Weather({ data, address }) {
             <img
               src={icon}
               alt="weather"
-              // style={{ width: 100, height: 100 }}
+              style={{ width: 100, height: 100 }}
             />
           </Box>
         </Grid>
