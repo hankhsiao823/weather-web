@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import Weather from "./pages/Weather";
-import { CircularProgress, Container,Box,useTheme } from "@mui/material";
+import { CircularProgress, Container, Box, useTheme } from "@mui/material";
 import language from "./language.json";
 
 export default function App() {
@@ -12,10 +12,36 @@ export default function App() {
 
   useEffect(() => {
     async function fetchData() {
-      navigator.geolocation.getCurrentPosition(function (position) {
+      if (navigator.geolocation) {
+        var position = navigator.geolocation;
+        var option = {
+          enableAcuracy: false,
+          maximumAge: 0,
+          timeout: 600000,
+        };
+        position.getCurrentPosition(successCallback, errorCallback, option);
+      } else {
+        alert("此瀏覽器不支援地理定位功能!");
+      }
+      function successCallback(position) {
         setLat(position.coords.latitude);
         setLong(position.coords.longitude);
-      });
+      }
+      function errorCallback(error) {
+        var errorTypes = {
+          0: "不明原因錯誤",
+          1: "使用者拒絕提供位置資訊",
+          2: "無法取得位置資訊",
+          3: "位置查詢逾時",
+        };
+        alert(errorTypes[error.code]);
+        //alert(error.message);  //測試時用
+      }
+
+      // navigator.geolocation.getCurrentPosition(function (position) {
+      //   setLat(position.coords.latitude);
+      //   setLong(position.coords.longitude);
+      // });
 
       await fetch(
         `https://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`,
@@ -59,7 +85,7 @@ export default function App() {
   const theme = useTheme();
 
   return (
-    <Box sx={{background:theme.palette.primary.main}}>
+    <Box sx={{ background: theme.palette.primary.main }}>
       <Container
         sx={{
           display: "flex",
@@ -71,7 +97,7 @@ export default function App() {
         {data.main !== undefined && address !== undefined ? (
           <WeatherComponent data={data} address={address} />
         ) : (
-          <CircularProgress sx={{color:"lightblue"}} />
+          <CircularProgress sx={{ color: "lightblue" }} />
         )}
       </Container>
     </Box>
