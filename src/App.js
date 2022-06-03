@@ -5,28 +5,31 @@ import { CircularProgress, Container, Box, useTheme } from "@mui/material";
 import language from "./language.json";
 
 export default function App() {
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
   const [address, setAddress] = useState();
   const [data, setData] = useState([]);
+  const [position, setPosition] = useState({});
+  const {lat,long} = position
+
+
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async() => {
       if (navigator.geolocation) {
-        var position = navigator.geolocation;
-        var option = {
+        let position = navigator.geolocation;
+        let option = {
           enableAcuracy: false,
           maximumAge: 0,
           timeout: 600000,
         };
-        position.getCurrentPosition(successCallback, errorCallback, option);
+       position.getCurrentPosition(successCallback, errorCallback, option);
       } else {
         alert("此瀏覽器不支援地理定位功能!");
       }
+
       function successCallback(position) {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
+       return setPosition({'lat':position.coords.latitude,'long':position.coords.longitude})
       }
+
       function errorCallback(error) {
         var errorTypes = {
           0: "不明原因錯誤",
@@ -35,15 +38,9 @@ export default function App() {
           3: "位置查詢逾時",
         };
         alert(errorTypes[error.code]);
-        //alert(error.message);  //測試時用
       }
 
-      // navigator.geolocation.getCurrentPosition(function (position) {
-      //   setLat(position.coords.latitude);
-      //   setLong(position.coords.longitude);
-      // });
-
-      await fetch(
+      lat && fetch(
         `https://${process.env.REACT_APP_API_URL}/weather?lat=${lat}&lon=${long}&APPID=${process.env.REACT_APP_API_KEY}`,
         {
           method: "GET",
@@ -54,16 +51,16 @@ export default function App() {
       )
         .then((res) => res.json())
         .then((result) => {
-          setData(result);
-          fetchMapData(result);
-        });
+           setData(result);
+           fetchMapData(result);
+        }).catch((e)=>console.log(e));
     }
 
-    async function fetchMapData(data) {
+    const fetchMapData = (data)=> {
       const lg = language.find(
         (item) => item.LangCultureName.indexOf(data.sys.country) >= 0
       );
-      await fetch(
+      lat && fetch(
         `https://${process.env.REACT_APP_MAP_API_URL}/geocode/json?latlng=${lat},${long}&key=${process.env.REACT_APP_MAP_API_KEY}&language=${lg}`,
         {
           method: "GET",
@@ -75,11 +72,12 @@ export default function App() {
         .then((res) => res.json())
         .then((result) => {
           setAddress(result);
-        });
+        }).catch((e)=>console.log(e));
     }
-
+    
     fetchData();
-  }, [lat, long]);
+    return () => fetchData();
+  }, [lat,long]);
 
   const WeatherComponent = React.memo(Weather);
   const theme = useTheme();
